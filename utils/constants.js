@@ -24,4 +24,4 @@
 
 const SHEET_NAME_TIMING_EXPORTER_DATA_TARGET = 'MyLaps';
 
-const TIMING_EXPORTER_BASE_URL = PropertiesService.getScriptProperties().getProperty('TIMING_EXPORTER_BASE_URL');
+const TIMING_EXPORTER_BASE_URL = 'https://api.triatloportugal.pt/timing-exporter/';
