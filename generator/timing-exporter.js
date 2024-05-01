@@ -90,6 +90,6 @@ function getTime(value) {
  */
 function getUtcTime(value) {
   const date = new Date(value);
-  date.setHours(date.getHours() - 1)
+  date.setHours(date.getHours() - 1);
   return value === null ? null : date.toLocaleTimeString('pt-PT') + `,${date.getMilliseconds()}`;
 }
