@@ -1,6 +1,6 @@
 {
   "name": "race-rank-timing-results",
-  "version": "2.1.3",
+  "version": "2.1.7",
   "description": "Google Apps Script for a spreadsheet to manage timing and generate classifications of the competitions promoted by the Portuguese Triathlon Federation",
   "main": "index.js",
   "type": "module",
