@@ -23,6 +23,7 @@
  */
 
 /**
+ * @deprecated
  * Gets the Five Waypoints Track Data for the given date and writes in the proper range of the associated Google Sheet.
  *
  * @param importDate the given import date
@@ -48,4 +49,66 @@ function writeFiveWaypointsTrackData(importDate) {
       .getRange(3, 1, numRows, numCols)
       .setValues(times);
   }
+}
+
+/**
+ * Gets the MYLAPS timing data, from the EnduranceTrio TimingExporter microservice, recorded in the given timezone.
+ *
+ * The timezone is represented by a string that EnduranceTrio TimingExporter microservice stores as an enum. The
+ * supported values are "lisbon" and "azores". The timezone "Lisbon/Europe" is represented by "lisbon" and the
+ * timezone "Atlantic/Azores" is represented by "azores".
+ *
+ * @param {String} timezone the given timezone
+ * @param {String} importDate the given import date
+ */
+function writeMylapsTimingData(timezone, importDate) {
+  const timingData = getMylapsTimingDataByDate(timezone, importDate);
+
+  if (timingData) {
+    if (timingData.checkIn && timingData.checkIn.length > 0) {
+      writeRange(CHECK_IN_TIMING_DATA_TARGET_RANGE, timingData.checkIn);
+    }
+
+    if (timingData.startLine && timingData.startLine.length > 0) {
+      writeRange(START_LINE_TIMING_DATA_TARGET_RANGE, timingData.startLine);
+    }
+
+    if (timingData.intermediateWaypoints && timingData.intermediateWaypoints.length > 0) {
+      writeRange(WAYPOINTS_TIMING_DATA_TARGET_RANGE, timingData.intermediateWaypoints);
+    }
+
+    if (timingData.finishLine && timingData.finishLine.length > 0) {
+      writeRange(FINISH_LINE_TIMING_DATA_TARGET_RANGE, timingData.finishLine);
+    }
+
+    if (timingData.invalid && timingData.invalid.length > 0) {
+      writeRange(INVALID_TIMING_DATA_TARGET_RANGE, timingData.invalid);
+    }
+  }
+}
+
+/**
+ * Clears the content of the given range and then writes the given content on the same range.
+ *
+ * @param {String} rangeName the given range name
+ * @param {Array} data the given data to be written
+ */
+function writeRange(rangeName, data) {
+  const RANGE_HEADER_ROWS = 1;
+
+  const range = SpreadsheetApp.getActive().getRangeByName(rangeName);
+  const rangeRows = range.getValues().length;
+  const rangeCols = range.getValues()[0].length;
+
+  const targetFirstRowIndex = range.getRow() + RANGE_HEADER_ROWS;
+  const targetFirstColIndex = range.getColumn();
+  const numRows = data.length;
+  const numCols = numRows == 0 ? 0 : data[0].length;
+
+  range
+    .getSheet()
+    .getRange(targetFirstRowIndex, targetFirstColIndex, rangeRows - RANGE_HEADER_ROWS, rangeCols)
+    .clearContent();
+
+  range.getSheet().getRange(targetFirstRowIndex, targetFirstColIndex, numRows, numCols).setValues(data);
 }
