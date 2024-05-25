@@ -23,54 +23,6 @@
  */
 
 /**
- * @deprecated
- * Gets the Five Waypoints Track Data for the given date from the EnduranceTrio Timing Exporter microservice.
- *
- * @param importDate the given import date
- *
- * @returns the Five Waypoints Track Data for the given date
- */
-function getFiveWaypointsTrackData(importDate) {
-  const endpoint = TIMING_EXPORTER_BASE_URL + 'v1/mylaps/five-waypoints/' + importDate;
-  const options = {
-    method: 'GET',
-  };
-
-  const response = JSON.parse(UrlFetchApp.fetch(endpoint, options).getContentText());
-  const result = response.data.validTrackRecords;
-
-  const times = new Array();
-  result.forEach((record) => {
-    const timeRecord = new Array();
-    timeRecord.push(record['[CI][Chip]']);
-    timeRecord.push(getUtcTime(record['[CI][Time]']));
-    timeRecord.push(record['[CI][Lap]']);
-    timeRecord.push(record['[SL][Chip]']);
-    timeRecord.push(getUtcTime(record['[SL][Time]']));
-    timeRecord.push(record['[SL][Lap]']);
-    timeRecord.push(record['[WA][Chip]']);
-    timeRecord.push(getUtcTime(record['[WA][Time]']));
-    timeRecord.push(record['[WA][Lap]']);
-    timeRecord.push(record['[WB][Chip]']);
-    timeRecord.push(getUtcTime(record['[WB][Time]']));
-    timeRecord.push(record['[WB][Lap]']);
-    timeRecord.push(record['[WC][Chip]']);
-    timeRecord.push(getUtcTime(record['[WC][Time]']));
-    timeRecord.push(record['[WC][Lap]']);
-    timeRecord.push(record['[WD][Chip]']);
-    timeRecord.push(getUtcTime(record['[WD][Time]']));
-    timeRecord.push(record['[WD][Lap]']);
-    timeRecord.push(record['[FL][Chip]']);
-    timeRecord.push(getUtcTime(record['[FL][Time]']));
-    timeRecord.push(record['[FL][Lap]']);
-
-    times.push(timeRecord);
-  });
-
-  return times;
-}
-
-/**
  * Gets the Timing Data, recorded in the given timezone, of the given date
  * from the EnduranceTrio Timing Exporter microservice.
  *
@@ -149,19 +101,5 @@ function convertTimingObjectToArray(timingRecord) {
  */
 function getTime(value) {
   const date = new Date(value);
-  return value === null ? null : date.toLocaleTimeString('pt-PT') + `,${date.getMilliseconds()}`;
-}
-
-/**
- * @deprecated
- * Converts the given UTC date string in ISO 8601 format into a UTC Time string.
- *
- * @param value the given UTC date string in ISO 8601 format
- *
- * @return a Local Time string
- */
-function getUtcTime(value) {
-  const date = new Date(value);
-  date.setHours(date.getHours() - 1);
   return value === null ? null : date.toLocaleTimeString('pt-PT') + `,${date.getMilliseconds()}`;
 }

@@ -23,35 +23,6 @@
  */
 
 /**
- * @deprecated
- * Gets the Five Waypoints Track Data for the given date and writes in the proper range of the associated Google Sheet.
- *
- * @param importDate the given import date
- */
-function writeFiveWaypointsTrackData(importDate) {
-  const times = getFiveWaypointsTrackData(importDate);
-
-  const numRows = times.length;
-  const numCols = numRows == 0 ? 0 : times[0].length;
-
-  if (numRows > 0 && numCols > 0) {
-    const maxRows = SpreadsheetApp.getActive().getSheetByName(SHEET_NAME_TIMING_EXPORTER_DATA_TARGET).getMaxRows();
-    const maxColumns = SpreadsheetApp.getActive()
-      .getSheetByName(SHEET_NAME_TIMING_EXPORTER_DATA_TARGET)
-      .getMaxColumns();
-    SpreadsheetApp.getActive()
-      .getSheetByName(SHEET_NAME_TIMING_EXPORTER_DATA_TARGET)
-      .getRange(3, 1, maxRows - 3, maxColumns)
-      .clearContent();
-
-    SpreadsheetApp.getActive()
-      .getSheetByName(SHEET_NAME_TIMING_EXPORTER_DATA_TARGET)
-      .getRange(3, 1, numRows, numCols)
-      .setValues(times);
-  }
-}
-
-/**
  * Gets the MYLAPS timing data, from the EnduranceTrio TimingExporter microservice, recorded in the given timezone.
  *
  * The timezone is represented by a string that EnduranceTrio TimingExporter microservice stores as an enum. The
