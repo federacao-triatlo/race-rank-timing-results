@@ -29,9 +29,9 @@
  */
 
 /**
- * Gets the event's ID specified on the "Definições" sheet of the associated Google Sheet.
+ * Gets the event's ID specified on the "Dashboard" tab of the associated Google Sheet.
  *
- * @returns the event's ID specified on the "Definições" sheet of the associated Google Sheet
+ * @returns the event's ID specified on the "Dashboard" tab of the associated Google Sheet
  */
 function getSelectedEventId() {
   return SpreadsheetApp.getActive().getRangeByName('ValueEventId').getDisplayValues()[0][0];
@@ -66,23 +66,32 @@ function getFinishLineRecordTable() {
 }
 
 /**
- * Gets the import date selected on the Google Definições "Main" tab.
+ * Gets the import date selected on the "Dashboard" tab of the associated Google Sheet.
  *
- * @returns the import date selected on the Google Definições "Main" tab
+ * @returns the import date selected on the "Dashboard" tab of the associated Google Sheet
  */
 function getSelectedImportDate() {
   return SpreadsheetApp.getActive().getRangeByName('ValueImportDate').getDisplayValues()[0][0];
 }
 
 /**
- * Gets the import status selected on the Google Sheets "Definições" tab.
+ * Gets the the scoring system selected on the "Dashboard" tab of the associated Google Sheet.
+ *
+ * @returns the the scoring system selected on the "Dashboard" tab of the associated Google Sheet
+ */
+function getSelectedScoringSystem() {
+  return SpreadsheetApp.getActive().getRangeByName('ValueScoringSystem').getDisplayValues()[0][0];
+}
+
+/**
+ * Gets the import status selected on the "Dashboard" tab of the associated Google Sheet.
  *
  * The import status defines of it is allowed to import data from the EnduranceTrio Timing Exporter
- * microservice. If the import status value is "PERMITIDO", it is allowed to import data. If the
- * import status value is "BLOQUEADO", it isn't allowed to import data from the EnduranceTrio Timing Exporter
+ * microservice. If the import status value is "ON", it is allowed to import data. If the
+ * import status value is "OFF", it isn't allowed to import data from the EnduranceTrio Timing Exporter
  * microservice.
  *
- * @returns the import status selected on the Google Sheets "Definições" tab
+ * @returns the import status selected on the "Dashboard" tab of the associated Google Sheet
  */
 function getSelectedImportStatus() {
   return SpreadsheetApp.getActive().getRangeByName('ValueImportStatus').getDisplayValues()[0][0];

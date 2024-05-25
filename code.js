@@ -28,7 +28,7 @@
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
   ui.createMenu('FTP')
-    .addItem('Importar registos MyLaps', 'validateGetMylapsTimingData')
+    .addItem('Importar registos MYLAPS', 'validateGetMylapsTimingData')
     .addItem('Exportar T5', 'saveFinishLineTxt')
     .addToUi();
 }
@@ -70,16 +70,18 @@ function validateGetTime() {
  * will be called. If it isn't allowed, a message is displayed stating that importing timing records isn't possible.
  */
 function validateGetMylapsTimingData() {
+  const scoringSystem = getSelectedScoringSystem();
   const importStatus = getSelectedImportStatus();
   const importDate = getSelectedImportDate();
   const timezone = DEFAULT_TIMEZONE_PATH_PARAMETER;
 
-  if (importStatus === 'ON') {
+  if (scoringSystem != 'MANUAL' && importStatus === 'ON') {
     if (importDate && importDate.length > 0) {
       writeMylapsTimingData(timezone, importDate);
     } else {
       const alertMessage =
         'Não está definida a data dos registo de tempo a importar!!\n' +
+        '\n' +
         'Para prosseguir com a importação de registos de tempo, é necessário definir a data dos mesmos.';
 
       SpreadsheetApp.getUi().alert(alertMessage);
@@ -87,7 +89,9 @@ function validateGetMylapsTimingData() {
   } else {
     const alertMessage =
       'A importação de registos de tempo está bloqueada!\n' +
-      'Para prosseguir com a importação de registos de tempo, é necessário alterar a respectiva definição.';
+      '\n' +
+      'A importação de registos de tempo está bloqueada porque a Cronometragem está definido para "MANUAL"' +
+      'e/ou a Importação de tempos não está definina para "ON".';
 
     SpreadsheetApp.getUi().alert(alertMessage);
   }
