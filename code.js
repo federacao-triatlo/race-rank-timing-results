@@ -28,12 +28,13 @@
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
   ui.createMenu('FTP')
-    .addItem('Importar MyLaps', 'validateGetTime')
+    .addItem('Importar registos MyLaps', 'validateGetMylapsTimingData')
     .addItem('Exportar T5', 'saveFinishLineTxt')
     .addToUi();
 }
 
 /**
+ * @deprecated
  * Check if importing timing records is allowed and if there's an import date defined.
  *
  * If importing timing records is allowed and the import date is defined, the function writeFiveWaypointsTrackData(~)
@@ -46,6 +47,36 @@ function validateGetTime() {
   if (importStatus === 'ON') {
     if (importDate && importDate.length > 0) {
       writeFiveWaypointsTrackData(importDate);
+    } else {
+      const alertMessage =
+        'Não está definida a data dos registo de tempo a importar!!\n' +
+        'Para prosseguir com a importação de registos de tempo, é necessário definir a data dos mesmos.';
+
+      SpreadsheetApp.getUi().alert(alertMessage);
+    }
+  } else {
+    const alertMessage =
+      'A importação de registos de tempo está bloqueada!\n' +
+      'Para prosseguir com a importação de registos de tempo, é necessário alterar a respectiva definição.';
+
+    SpreadsheetApp.getUi().alert(alertMessage);
+  }
+}
+
+/**
+ * Check if importing timing records is allowed and if there's an import date defined.
+ *
+ * If importing timing records is allowed and the import date is defined, the function writeMylapsTimingData(~)
+ * will be called. If it isn't allowed, a message is displayed stating that importing timing records isn't possible.
+ */
+function validateGetMylapsTimingData() {
+  const importStatus = getSelectedImportStatus();
+  const importDate = getSelectedImportDate();
+  const timezone = DEFAULT_TIMEZONE_PATH_PARAMETER;
+
+  if (importStatus === 'ON') {
+    if (importDate && importDate.length > 0) {
+      writeMylapsTimingData(timezone, importDate);
     } else {
       const alertMessage =
         'Não está definida a data dos registo de tempo a importar!!\n' +

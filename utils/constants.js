@@ -25,3 +25,15 @@
 const SHEET_NAME_TIMING_EXPORTER_DATA_TARGET = 'MyLaps';
 
 const TIMING_EXPORTER_BASE_URL = 'https://api.triatloportugal.pt/timing-exporter/';
+
+const DEFAULT_TIMEZONE_PATH_PARAMETER = 'lisbon/';
+
+const CHECK_IN_TIMING_DATA_TARGET_RANGE = 'TableTimingExporterCheckIn';
+
+const START_LINE_TIMING_DATA_TARGET_RANGE = 'TableTimingExporterStartLine';
+
+const WAYPOINTS_TIMING_DATA_TARGET_RANGE = 'TableTimingExporterWaypoints';
+
+const FINISH_LINE_TIMING_DATA_TARGET_RANGE = 'TableTimingExporterFinishLine';
+
+const INVALID_TIMING_DATA_TARGET_RANGE = 'TableTimingExporterInvalid';
